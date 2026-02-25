@@ -1,0 +1,133 @@
+<div class="min-h-screen bg-black text-white">
+  
+  <!-- Header Section -->
+  <section class="py-20 bg-gradient-to-r from-gray-900 via-black to-gray-900">
+    <div class="container mx-auto px-6 text-center">
+      <h1 class="text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-600 bg-clip-text text-transparent" data-aos="fade-up">
+        Upcoming Events
+      </h1>
+      <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+        Discover and register for amazing events that match your interests
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="py-8 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <!-- Search Bar -->
+        <div class="flex-1 max-w-md">
+          <div class="relative">
+            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <input 
+              type="text" 
+              [(ngModel)]="searchTerm" 
+              (input)="filterEvents()"
+              placeholder="Search events..."
+              class="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="flex gap-2">
+          <button 
+            (click)="selectedCategory = 'all'; filterEvents()"
+            [class]="selectedCategory === 'all' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'"
+            class="px-4 py-2 rounded-lg transition-colors">
+            All Events
+          </button>
+          <button 
+            (click)="selectedCategory = 'workshop'; filterEvents()"
+            [class]="selectedCategory === 'workshop' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'"
+            class="px-4 py-2 rounded-lg transition-colors">
+            Workshops
+          </button>
+          <button 
+            (click)="selectedCategory = 'seminar'; filterEvents()"
+            [class]="selectedCategory === 'seminar' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'"
+            class="px-4 py-2 rounded-lg transition-colors">
+            Seminars
+          </button>
+          <button 
+            (click)="selectedCategory = 'conference'; filterEvents()"
+            [class]="selectedCategory === 'conference' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'"
+            class="px-4 py-2 rounded-lg transition-colors">
+            Conferences
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Grid -->
+  <section class="py-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let event of filteredEvents; trackBy: trackByEventId" 
+             class="bg-gray-900 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-xl"
+             data-aos="fade-up">
+          
+          <!-- Event Header -->
+          <div class="h-48 bg-gradient-to-r {{ getCategoryColor(event.category) }} flex items-center justify-center relative">
+            <i class="fas {{ getCategoryIcon(event.category) }} text-6xl text-white"></i>
+            <div class="absolute top-4 right-4 bg-white bg-opacity-20 backdrop-blur-sm px-3 py-1 rounded-full">
+              <span class="text-white text-sm font-semibold capitalize">{{ event.category }}</span>
+            </div>
+          </div>
+
+          <!-- Event Content -->
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-3 text-white">{{ event.name }}</h3>
+            <p class="text-gray-400 mb-4">{{ event.description }}</p>
+            
+            <!-- Event Details -->
+            <div class="space-y-3 mb-6">
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-calendar-alt w-5 mr-3 text-indigo-400"></i>
+                <span>{{ event.date | date:'longDate' }}</span>
+              </div>
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-clock w-5 mr-3 text-indigo-400"></i>
+                <span>{{ event.time }}</span>
+              </div>
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-map-marker-alt w-5 mr-3 text-indigo-400"></i>
+                <span>{{ event.venue }}</span>
+              </div>
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-users w-5 mr-3 text-indigo-400"></i>
+                <span>{{ event.availableSeats }} seats available</span>
+              </div>
+              <div class="flex items-center text-gray-300">
+                <i class="fas fa-tag w-5 mr-3 text-indigo-400"></i>
+                <span class="text-xl font-semibold text-green-400">${{ event.price }}</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3">
+              <a routerLink="/register" 
+                 [queryParams]="{eventId: event.id}"
+                 class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg text-center font-semibold transition-colors">
+                <i class="fas fa-user-plus mr-2"></i>
+                Register Now
+              </a>
+              <button class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-lg transition-colors" title="Add to favorites">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results Message -->
+      <div *ngIf="filteredEvents.length === 0" class="text-center py-16">
+        <i class="fas fa-calendar-times text-6xl text-gray-600 mb-4"></i>
+        <h3 class="text-2xl font-semibold text-gray-400 mb-2">No events found</h3>
+        <p class="text-gray-500">Try adjusting your search or filter criteria</p>
+      </div>
+    </div>
+  </section>
+
+</div>

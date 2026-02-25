@@ -1,0 +1,532 @@
+<div class="min-h-screen bg-black text-white">
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10"></div>
+    <div class="absolute inset-0">
+      <div class="absolute top-10 left-10 w-64 h-64 bg-indigo-600 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+      <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    </div>
+    
+    <div class="relative container mx-auto px-6 text-center">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 text-white">
+        Get in Touch with EventHub
+      </h1>
+      <p class="text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+        "We're here to help you host smarter events."
+      </p>
+      <p class="text-lg text-gray-400 max-w-4xl mx-auto">
+        Have questions about our platform, pricing, or enterprise solutions? Our team is ready to assist you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact Information Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Contact Information</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Office Information -->
+        <div class="bg-gray-800 rounded-xl p-8">
+          <div class="text-center mb-6">
+            <i class="fas fa-building text-3xl text-indigo-400 mb-4"></i>
+            <h3 class="text-2xl font-bold text-white mb-2">Office Information</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Company Name</p>
+              <p class="text-white font-semibold">{{ companyInfo.name }}</p>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Head Office Location</p>
+              <p class="text-white">{{ companyInfo.headquarters }}</p>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Branch Locations</p>
+              <ul class="text-white">
+                <li *ngFor="let branch of companyInfo.branches" class="mb-1">• {{ branch }}</li>
+              </ul>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Working Hours</p>
+              <p class="text-white">{{ companyInfo.workingHours }}</p>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Time Zone Support</p>
+              <p class="text-white">{{ companyInfo.timezone }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email Support -->
+        <div class="bg-gray-800 rounded-xl p-8">
+          <div class="text-center mb-6">
+            <i class="fas fa-envelope text-3xl text-purple-400 mb-4"></i>
+            <h3 class="text-2xl font-bold text-white mb-2">Email Support</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <p class="text-gray-400 text-sm mb-1">General Inquiry</p>
+              <a href="mailto:{{ companyInfo.supportEmail.general }}" 
+                 class="text-indigo-400 hover:text-indigo-300 font-semibold">
+                {{ companyInfo.supportEmail.general }}
+              </a>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Sales Inquiry</p>
+              <a href="mailto:{{ companyInfo.supportEmail.sales }}" 
+                 class="text-purple-400 hover:text-purple-300 font-semibold">
+                {{ companyInfo.supportEmail.sales }}
+              </a>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Technical Support</p>
+              <a href="mailto:{{ companyInfo.supportEmail.technical }}" 
+                 class="text-blue-400 hover:text-blue-300 font-semibold">
+                {{ companyInfo.supportEmail.technical }}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone Support -->
+        <div class="bg-gray-800 rounded-xl p-8">
+          <div class="text-center mb-6">
+            <i class="fas fa-phone text-3xl text-green-400 mb-4"></i>
+            <h3 class="text-2xl font-bold text-white mb-2">Phone Support</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Customer Support</p>
+              <a href="tel:{{ companyInfo.phone.support }}" 
+                 class="text-green-400 hover:text-green-300 font-semibold">
+                {{ formatPhoneNumber(companyInfo.phone.support) }}
+              </a>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Sales Hotline</p>
+              <a href="tel:{{ companyInfo.phone.sales }}" 
+                 class="text-purple-400 hover:text-purple-300 font-semibold">
+                {{ formatPhoneNumber(companyInfo.phone.sales) }}
+              </a>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Emergency Contact</p>
+              <a href="tel:{{ companyInfo.phone.emergency }}" 
+                 class="text-red-400 hover:text-red-300 font-semibold">
+                {{ formatPhoneNumber(companyInfo.phone.emergency) }}
+                <span class="text-xs text-gray-400 block">(Enterprise clients)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Media Links -->
+      <div class="text-center mt-12">
+        <h4 class="text-xl font-semibold text-white mb-6">Connect With Us</h4>
+        <div class="flex justify-center gap-6">
+          <a href="{{ companyInfo.socialMedia.linkedin }}" 
+             class="w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center transition-colors">
+            <i class="fab fa-linkedin text-white"></i>
+          </a>
+          <a href="{{ companyInfo.socialMedia.twitter }}" 
+             class="w-12 h-12 bg-sky-500 hover:bg-sky-600 rounded-full flex items-center justify-center transition-colors">
+            <i class="fab fa-twitter text-white"></i>
+          </a>
+          <a href="{{ companyInfo.socialMedia.instagram }}" 
+             class="w-12 h-12 bg-pink-600 hover:bg-pink-700 rounded-full flex items-center justify-center transition-colors">
+            <i class="fab fa-instagram text-white"></i>
+          </a>
+          <a href="{{ companyInfo.socialMedia.facebook }}" 
+             class="w-12 h-12 bg-blue-700 hover:bg-blue-800 rounded-full flex items-center justify-center transition-colors">
+            <i class="fab fa-facebook text-white"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Send Us a Message</h2>
+        <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Contact Form -->
+        <div class="bg-gray-900 rounded-xl p-8">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmitContact()">
+            <!-- Personal Information -->
+            <div class="mb-8">
+              <h3 class="text-xl font-semibold text-white mb-6 flex items-center">
+                <i class="fas fa-user mr-3 text-indigo-400"></i>
+                Personal Information
+              </h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                  <input type="text" formControlName="fullName" 
+                         class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="John Doe">
+                  <div *ngIf="fullName?.invalid && fullName?.touched" class="text-red-400 text-sm mt-1">
+                    Full name is required
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Company Name *</label>
+                  <input type="text" formControlName="companyName" 
+                         class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="Acme Corporation">
+                  <div *ngIf="companyName?.invalid && companyName?.touched" class="text-red-400 text-sm mt-1">
+                    Company name is required
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Business Email *</label>
+                  <input type="email" formControlName="email" 
+                         class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="john&#64;company.com">
+                  <div *ngIf="email?.invalid && email?.touched" class="text-red-400 text-sm mt-1">
+                    Valid email is required
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                  <input type="tel" formControlName="phone" 
+                         class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="+1 (555) 123-4567">
+                  <div *ngIf="phone?.invalid && phone?.touched" class="text-red-400 text-sm mt-1">
+                    Valid phone number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inquiry Details -->
+            <div class="mb-8">
+              <h3 class="text-xl font-semibold text-white mb-6 flex items-center">
+                <i class="fas fa-edit mr-3 text-indigo-400"></i>
+                Inquiry Details
+              </h3>
+              
+              <div class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Inquiry Type *</label>
+                  <select formControlName="inquiryType" 
+                          class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option *ngFor="let type of inquiryTypes" [value]="type.value">
+                      {{ type.label }}
+                    </option>
+                  </select>
+                  <div *ngIf="inquiryType?.invalid && inquiryType?.touched" class="text-red-400 text-sm mt-1">
+                    Inquiry type is required
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Subject *</label>
+                  <input type="text" formControlName="subject" 
+                         class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                         placeholder="How can we help you?">
+                  <div *ngIf="subject?.invalid && subject?.touched" class="text-red-400 text-sm mt-1">
+                    Subject is required (min 3 characters)
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Message *</label>
+                  <textarea formControlName="message" 
+                            class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            rows="5" 
+                            placeholder="Please describe your inquiry in detail..."></textarea>
+                  <div class="flex justify-between mt-1">
+                    <div *ngIf="message?.invalid && message?.touched" class="text-red-400 text-sm">
+                      <span *ngIf="message?.errors?.['required']">Message is required</span>
+                      <span *ngIf="message?.errors?.['minlength']">Minimum 10 characters</span>
+                      <span *ngIf="message?.errors?.['maxlength']">Maximum 1000 characters</span>
+                    </div>
+                    <span class="text-gray-400 text-sm">{{ message?.value?.length || 0 }}/1000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security -->
+            <div class="mb-8">
+              <div class="flex items-center">
+                <input type="checkbox" formControlName="agreeToPrivacy" 
+                       class="w-4 h-4 text-indigo-600 bg-gray-800 border-gray-600 rounded focus:ring-indigo-500">
+                <label class="ml-3 text-sm text-gray-300">
+                  I agree to the Privacy Policy and Terms of Service *
+                </label>
+              </div>
+              <div *ngIf="agreeToPrivacy?.invalid && agreeToPrivacy?.touched" class="text-red-400 text-sm mt-1">
+                You must agree to the privacy policy
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-4">
+              <button type="submit" 
+                      [disabled]="isSubmitting || contactForm.invalid"
+                      class="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white py-3 rounded-lg font-semibold transition-colors">
+                <i *ngIf="!isSubmitting" class="fas fa-paper-plane mr-2"></i>
+                <i *ngIf="isSubmitting" class="fas fa-spinner fa-spin mr-2"></i>
+                {{ isSubmitting ? 'Submitting...' : 'Submit Inquiry' }}
+              </button>
+              
+              <button type="button" (click)="resetContactForm()" 
+                      class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                <i class="fas fa-redo mr-2"></i>
+                Reset Form
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Request a Demo Section -->
+        <div class="bg-gray-900 rounded-xl p-8">
+          <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold text-white mb-2">Book a Live Demo</h3>
+            <p class="text-gray-400">See EventHub in action with a personalized demo</p>
+          </div>
+          
+          <form [formGroup]="demoForm" (ngSubmit)="onSubmitDemo()">
+            <div class="space-y-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Company Name *</label>
+                <input type="text" formControlName="companyName" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                       placeholder="Acme Corporation">
+                <div *ngIf="demoCompanyName?.invalid && demoCompanyName?.touched" class="text-red-400 text-sm mt-1">
+                  Company name is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Number of Employees *</label>
+                <select formControlName="employeeCount" 
+                        class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <option value="">Select company size</option>
+                  <option *ngFor="let count of employeeCounts" [value]="count.value">
+                    {{ count.label }}
+                  </option>
+                </select>
+                <div *ngIf="employeeCount?.invalid && employeeCount?.touched" class="text-red-400 text-sm mt-1">
+                  Employee count is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Expected Event Size *</label>
+                <select formControlName="eventSize" 
+                        class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <option value="">Select event size</option>
+                  <option *ngFor="let size of eventSizes" [value]="size.value">
+                    {{ size.label }}
+                  </option>
+                </select>
+                <div *ngIf="eventSize?.invalid && eventSize?.touched" class="text-red-400 text-sm mt-1">
+                  Event size is required
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Preferred Demo Date *</label>
+                  <input type="date" formControlName="preferredDate" 
+                         [min]="getMinDate()"
+                         class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <div *ngIf="preferredDate?.invalid && preferredDate?.touched" class="text-red-400 text-sm mt-1">
+                    Preferred date is required
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Preferred Time Slot *</label>
+                  <select formControlName="preferredTime" 
+                          class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <option value="">Select time slot</option>
+                    <option *ngFor="let slot of timeSlots" [value]="slot.value">
+                      {{ slot.label }}
+                    </option>
+                  </select>
+                  <div *ngIf="preferredTime?.invalid && preferredTime?.touched" class="text-red-400 text-sm mt-1">
+                    Preferred time is required
+                  </div>
+                </div>
+              </div>
+              
+              <button type="submit" 
+                      [disabled]="isDemoSubmitting || demoForm.invalid"
+                      class="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white py-3 rounded-lg font-semibold transition-colors">
+                <i *ngIf="!isDemoSubmitting" class="fas fa-calendar-check mr-2"></i>
+                <i *ngIf="isDemoSubmitting" class="fas fa-spinner fa-spin mr-2"></i>
+                {{ isDemoSubmitting ? 'Scheduling...' : 'Schedule Demo' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support & Help Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Support & Help</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="#" class="bg-gray-800 rounded-xl p-6 text-center hover:bg-gray-700 transition-all block">
+          <i class="fas fa-question-circle text-3xl text-indigo-400 mb-4"></i>
+          <h4 class="text-lg font-semibold text-white mb-2">FAQs</h4>
+          <p class="text-gray-400 text-sm">Find quick answers to common questions</p>
+        </a>
+        
+        <a href="#" class="bg-gray-800 rounded-xl p-6 text-center hover:bg-gray-700 transition-all block">
+          <i class="fas fa-book text-3xl text-purple-400 mb-4"></i>
+          <h4 class="text-lg font-semibold text-white mb-2">Documentation</h4>
+          <p class="text-gray-400 text-sm">Comprehensive guides and API docs</p>
+        </a>
+        
+        <a href="#" class="bg-gray-800 rounded-xl p-6 text-center hover:bg-gray-700 transition-all block">
+          <i class="fas fa-user-cog text-3xl text-blue-400 mb-4"></i>
+          <h4 class="text-lg font-semibold text-white mb-2">Admin Guide</h4>
+          <p class="text-gray-400 text-sm">Step-by-step admin instructions</p>
+        </a>
+        
+        <a href="#" class="bg-gray-800 rounded-xl p-6 text-center hover:bg-gray-700 transition-all block">
+          <i class="fas fa-code text-3xl text-green-400 mb-4"></i>
+          <h4 class="text-lg font-semibold text-white mb-2">API Documentation</h4>
+          <p class="text-gray-400 text-sm">Developer resources and endpoints</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Visit Our Office</h2>
+        <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+      </div>
+      
+      <div class="bg-gray-900 rounded-xl p-8">
+        <div class="aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg mb-6 flex items-center justify-center">
+          <i class="fas fa-map-marked-alt text-6xl text-indigo-400"></i>
+          <p class="text-gray-400 mt-4">Interactive Map</p>
+        </div>
+        
+        <div class="text-center">
+          <p class="text-white font-semibold mb-2">{{ companyInfo.headquarters }}</p>
+          <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-directions mr-2"></i>
+            Get Directions
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Response Commitment Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6 text-center">
+      <div class="bg-gradient-to-r from-indigo-900 to-purple-900 rounded-2xl p-12">
+        <i class="fas fa-clock text-4xl text-indigo-400 mb-6"></i>
+        <h3 class="text-2xl font-bold text-white mb-4">
+          "At EventHub, we respond to all inquiries within 24 business hours."
+        </h3>
+        <p class="text-lg text-gray-300">
+          Enterprise clients receive priority support with dedicated account managers.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Data Privacy Notice -->
+  <section class="py-16 bg-black border-t border-gray-800">
+    <div class="container mx-auto px-6 text-center">
+      <div class="max-w-4xl mx-auto">
+        <i class="fas fa-shield-alt text-3xl text-green-400 mb-4"></i>
+        <h3 class="text-xl font-bold text-white mb-4">Security & Data Privacy</h3>
+        <p class="text-gray-300 leading-relaxed">
+          Your information is encrypted and securely processed. We never share your data with third parties without consent.
+          EventHub is committed to protecting your privacy and maintaining the highest security standards.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" 
+       class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl max-w-md w-full p-8">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-check text-3xl text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-2">Message Sent Successfully!</h3>
+        <p class="text-gray-300 mb-4">Your inquiry has been received and we'll respond within 24 business hours.</p>
+        <div class="bg-gray-800 rounded-lg p-4">
+          <p class="text-gray-400 text-sm mb-1">Your Ticket Number:</p>
+          <p class="text-indigo-400 font-mono font-bold text-lg">{{ ticketNumber }}</p>
+        </div>
+      </div>
+      
+      <div class="flex gap-4">
+        <button (click)="closeSuccessModal()" 
+                class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition-colors">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo Success Modal -->
+  <div *ngIf="showDemoModal" 
+       class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl max-w-md w-full p-8">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-calendar-check text-3xl text-white"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-2">Demo Requested!</h3>
+        <p class="text-gray-300 mb-4">Thank you for your interest. Our team will contact you within 24 hours to schedule your personalized demo.</p>
+      </div>
+      
+      <div class="flex gap-4">
+        <button (click)="closeDemoModal()" 
+                class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold transition-colors">
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

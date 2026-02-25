@@ -1,0 +1,363 @@
+<div class="min-h-screen bg-black text-white">
+  
+  <!-- Registration Success Modal -->
+  <div *ngIf="registrationSuccess" class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl max-w-2xl w-full p-8 text-center" data-aos="zoom-in">
+      <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-check text-3xl text-white"></i>
+      </div>
+      
+      <h2 class="text-3xl font-bold mb-4 text-green-400">Registration Successful!</h2>
+      
+      <div class="bg-gray-800 rounded-lg p-6 mb-6 text-left">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <p class="text-gray-400 text-sm">Registration ID</p>
+            <p class="text-white font-semibold">{{ registrationId }}</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Event</p>
+            <p class="text-white font-semibold">{{ selectedEvent?.name }}</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Seats</p>
+            <p class="text-white font-semibold">{{ registrationForm.get('numberOfSeats')?.value }}</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Total Paid</p>
+            <p class="text-green-400 font-semibold">${{ totalPrice }}</p>
+          </div>
+        </div>
+        
+        <!-- QR Code -->
+        <div class="text-center mb-4">
+          <img [src]="qrCodeUrl" alt="QR Code" class="mx-auto rounded-lg bg-white p-2">
+          <p class="text-gray-400 text-sm mt-2">Scan for check-in</p>
+        </div>
+      </div>
+      
+      <div class="flex gap-4 justify-center">
+        <button (click)="downloadTicket()" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-lg font-semibold transition-colors">
+          <i class="fas fa-download mr-2"></i>
+          Download Ticket
+        </button>
+        <button (click)="goBackToEvents()" class="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition-colors">
+          Back to Events
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Registration Content -->
+  <div class="container mx-auto px-6 py-8">
+    
+    <!-- Page Header -->
+    <section class="mb-8">
+      <nav class="text-sm text-gray-400 mb-4">
+        <span>Dashboard</span> / <span>Events</span> / <span class="text-white">Register</span>
+      </nav>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-4xl font-bold mb-2">Event Registration</h1>
+          <p class="text-gray-400">Complete your registration for {{ selectedEvent?.name }}</p>
+        </div>
+        
+        <div class="flex items-center gap-4">
+          <span [class]="'px-4 py-2 rounded-full text-sm font-semibold ' + 
+                     (getEventStatus() === 'Active' ? 'bg-green-600 text-white' : 
+                      getEventStatus() === 'Limited Seats' ? 'bg-yellow-600 text-white' : 
+                      'bg-red-600 text-white')">
+            {{ getEventStatus() }}
+          </span>
+          
+          <button (click)="goBackToEvents()" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Events
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Event Summary Card -->
+    <section *ngIf="selectedEvent" class="mb-8" data-aos="fade-up">
+      <div class="bg-gray-900 rounded-2xl overflow-hidden">
+        <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+          <i class="fas fa-calendar-alt text-6xl text-white"></i>
+        </div>
+        
+        <div class="p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Event Name</p>
+              <p class="text-white font-semibold">{{ selectedEvent.name }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Category</p>
+              <p class="text-white font-semibold capitalize">{{ selectedEvent.category }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Location</p>
+              <p class="text-white font-semibold">{{ selectedEvent.venue }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Available Seats</p>
+              <p class="text-white font-semibold">{{ selectedEvent.availableSeats }} seats</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Date</p>
+              <p class="text-white font-semibold">{{ selectedEvent.date | date:'longDate' }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Time</p>
+              <p class="text-white font-semibold">{{ selectedEvent.time }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Price per Ticket</p>
+              <p class="text-green-400 font-semibold">${{ selectedEvent.price }}</p>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm mb-1">Organizer</p>
+              <p class="text-white font-semibold">EventHub Team</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration Form -->
+    <section *ngIf="!registrationSuccess && !isEventFullyBooked()" class="bg-gray-900 rounded-2xl p-8" data-aos="fade-up" data-aos-delay="100">
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Personal Details Section -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-user mr-3 text-indigo-400"></i>
+            Personal Details
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+              <input type="text" formControlName="fullName" 
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     placeholder="John Doe">
+              <div *ngIf="fullName?.invalid && fullName?.touched" class="text-red-400 text-sm mt-1">
+                Full name is required (2-100 characters)
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Corporate Email *</label>
+              <input type="email" formControlName="corporateEmail" 
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     placeholder="john&#64;company.com">
+              <div *ngIf="corporateEmail?.invalid && corporateEmail?.touched" class="text-red-400 text-sm mt-1">
+                Valid corporate email is required
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+              <input type="tel" formControlName="phoneNumber" 
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     placeholder="+1 (555) 123-4567">
+              <div *ngIf="phoneNumber?.invalid && phoneNumber?.touched" class="text-red-400 text-sm mt-1">
+                Valid phone number is required
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Company Name *</label>
+              <input type="text" formControlName="companyName" 
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     placeholder="Acme Corporation">
+              <div *ngIf="companyName?.invalid && companyName?.touched" class="text-red-400 text-sm mt-1">
+                Company name is required
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Job Title *</label>
+              <input type="text" formControlName="jobTitle" 
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     placeholder="Software Engineer">
+              <div *ngIf="jobTitle?.invalid && jobTitle?.touched" class="text-red-400 text-sm mt-1">
+                Job title is required
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Country *</label>
+              <select formControlName="country" 
+                      title="Select your country"
+                      class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">Select Country</option>
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="IN">India</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="JP">Japan</option>
+                <option value="OTHER">Other</option>
+              </select>
+              <div *ngIf="country?.invalid && country?.touched" class="text-red-400 text-sm mt-1">
+                Country is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Details Section -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-ticket-alt mr-3 text-indigo-400"></i>
+            Booking Details
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Number of Seats *</label>
+              <input type="number" formControlName="numberOfSeats" 
+                     title="Number of seats to book"
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     min="1" max="10">
+              <div *ngIf="numberOfSeats?.invalid && numberOfSeats?.touched" class="text-red-400 text-sm mt-1">
+                Number of seats must be between 1 and 10
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Ticket Type *</label>
+              <select formControlName="ticketType" 
+                      title="Select ticket type"
+                      class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="standard">Standard (1x)</option>
+                <option value="vip">VIP (1.5x)</option>
+                <option value="earlyBird">Early Bird (0.8x)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Coupon Code (Optional)</label>
+              <input type="text" formControlName="couponCode" 
+                     class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                     placeholder="EARLY20 or CORP15">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Special Requirements</label>
+              <textarea formControlName="specialRequirements" 
+                        class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        rows="3" placeholder="Any special requirements or accessibility needs..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <i class="fas fa-credit-card mr-3 text-indigo-400"></i>
+            Payment Details
+          </h2>
+          
+          <div class="bg-gray-800 rounded-lg p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <p class="text-gray-400 text-sm">Base Price</p>
+                <p class="text-white font-semibold">${{ basePrice }} × {{ registrationForm.get('numberOfSeats')?.value || 1 }} seats</p>
+              </div>
+              <div *ngIf="discountAmount > 0">
+                <p class="text-gray-400 text-sm">Discount</p>
+                <p class="text-green-400 font-semibold">-${{ discountAmount }}</p>
+              </div>
+              <div>
+                <p class="text-gray-400 text-sm">Total Amount</p>
+                <p class="text-2xl font-bold text-green-400">${{ totalPrice }}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-300 mb-2">Payment Method *</label>
+            <div class="grid grid-cols-3 gap-4">
+              <label class="relative">
+                <input type="radio" formControlName="paymentMethod" value="card" class="sr-only peer">
+                <div class="bg-gray-800 border-2 border-gray-700 rounded-lg p-4 cursor-pointer peer-checked:border-indigo-500 peer-checked:bg-gray-700 transition-all">
+                  <i class="fas fa-credit-card text-2xl mb-2"></i>
+                  <p class="text-sm">Credit/Debit Card</p>
+                </div>
+              </label>
+              
+              <label class="relative">
+                <input type="radio" formControlName="paymentMethod" value="upi" class="sr-only peer">
+                <div class="bg-gray-800 border-2 border-gray-700 rounded-lg p-4 cursor-pointer peer-checked:border-indigo-500 peer-checked:bg-gray-700 transition-all">
+                  <i class="fas fa-mobile-alt text-2xl mb-2"></i>
+                  <p class="text-sm">UPI</p>
+                </div>
+              </label>
+              
+              <label class="relative">
+                <input type="radio" formControlName="paymentMethod" value="netBanking" class="sr-only peer">
+                <div class="bg-gray-800 border-2 border-gray-700 rounded-lg p-4 cursor-pointer peer-checked:border-indigo-500 peer-checked:bg-gray-700 transition-all">
+                  <i class="fas fa-university text-2xl mb-2"></i>
+                  <p class="text-sm">Net Banking</p>
+                </div>
+              </label>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <input type="checkbox" formControlName="agreeToTerms" id="terms" class="mr-3">
+            <label for="terms" class="text-sm text-gray-300">
+              I agree to the <a href="#" class="text-indigo-400 hover:text-indigo-300">Terms & Conditions</a> and 
+              <a href="#" class="text-indigo-400 hover:text-indigo-300">Privacy Policy</a> *
+            </label>
+          </div>
+          <div *ngIf="agreeToTerms?.invalid && agreeToTerms?.touched" class="text-red-400 text-sm mt-1">
+            You must agree to the terms and conditions
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button type="submit" 
+                  [disabled]="isSubmitting || registrationForm.invalid"
+                  class="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white py-4 rounded-lg font-semibold transition-colors">
+            <i *ngIf="!isSubmitting" class="fas fa-lock mr-2"></i>
+            <i *ngIf="isSubmitting" class="fas fa-spinner fa-spin mr-2"></i>
+            {{ isSubmitting ? 'Processing...' : 'Proceed to Payment' }}
+          </button>
+          
+          <button type="button" (click)="saveAsDraft()" 
+                  class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-save mr-2"></i>
+            Save as Draft
+          </button>
+          
+          <button type="button" (click)="resetForm()" 
+                  class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-times mr-2"></i>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Event Fully Booked Message -->
+    <section *ngIf="isEventFullyBooked()" class="bg-red-900 bg-opacity-20 border border-red-600 rounded-2xl p-8 text-center" data-aos="fade-up">
+      <i class="fas fa-calendar-times text-6xl text-red-400 mb-4"></i>
+      <h2 class="text-3xl font-bold mb-4 text-red-400">Registration Closed</h2>
+      <p class="text-gray-300 mb-6">
+        This event is fully booked or doesn't have enough seats available for your requested number of seats.
+      </p>
+      <button (click)="goBackToEvents()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+        Browse Other Events
+      </button>
+    </section>
+
+  </div>
+
+</div>

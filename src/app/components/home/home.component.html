@@ -1,0 +1,168 @@
+<div class="min-h-screen bg-black text-white">
+  
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black via-gray-900 to-black opacity-90"></div>
+    <div class="absolute inset-0 bg-cover bg-center hero-background"></div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto" data-aos="fade-up">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-600 bg-clip-text text-transparent">
+        Welcome to EventHub
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 text-gray-300">
+        Discover Amazing Events & Register Instantly
+      </p>
+      <p class="text-lg mb-12 text-gray-400 max-w-2xl mx-auto">
+        Join thousands of event enthusiasts. From workshops to conferences, 
+        find and register for the perfect events that match your interests.
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a routerLink="/events" 
+           class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+          <i class="fas fa-calendar-alt mr-2"></i>
+          Browse Events
+        </a>
+        <a routerLink="/register" 
+           class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 shadow-lg">
+          <i class="fas fa-user-plus mr-2"></i>
+          Register Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+        Why Choose EventHub?
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="text-center p-8 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-search text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Easy Discovery</h3>
+          <p class="text-gray-400">
+            Find events that match your interests with our smart search and filtering system.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="text-center p-8 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-bolt text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Quick Registration</h3>
+          <p class="text-gray-400">
+            Register for events in seconds with our streamlined registration process.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="text-center p-8 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors" data-aos="fade-up" data-aos-delay="300">
+          <div class="w-20 h-20 bg-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-shield-alt text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Secure & Reliable</h3>
+          <p class="text-gray-400">
+            Your data is safe with us. We use industry-standard security measures.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div data-aos="fade-up" data-aos-delay="100">
+          <div class="text-4xl font-bold text-indigo-400 mb-2">500+</div>
+          <div class="text-gray-400">Events Hosted</div>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="200">
+          <div class="text-4xl font-bold text-purple-400 mb-2">10K+</div>
+          <div class="text-gray-400">Happy Users</div>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="300">
+          <div class="text-4xl font-bold text-pink-400 mb-2">50+</div>
+          <div class="text-gray-400">Event Categories</div>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="400">
+          <div class="text-4xl font-bold text-green-400 mb-2">4.9★</div>
+          <div class="text-gray-400">User Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events Preview -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
+        Upcoming Events
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Event Card 1 -->
+        <div class="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all" data-aos="fade-up" data-aos-delay="100">
+          <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+            <i class="fas fa-code text-6xl text-white"></i>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Angular Workshop</h3>
+            <p class="text-gray-400 mb-4">Learn advanced Angular concepts</p>
+            <div class="text-sm text-gray-500">
+              <i class="fas fa-calendar mr-2"></i>March 15, 2024
+              <i class="fas fa-clock ml-4 mr-2"></i>10:00 AM
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card 2 -->
+        <div class="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all" data-aos="fade-up" data-aos-delay="200">
+          <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-600 flex items-center justify-center">
+            <i class="fas fa-laptop-code text-6xl text-white"></i>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Web Development Seminar</h3>
+            <p class="text-gray-400 mb-4">Modern web development trends</p>
+            <div class="text-sm text-gray-500">
+              <i class="fas fa-calendar mr-2"></i>March 20, 2024
+              <i class="fas fa-clock ml-4 mr-2"></i>2:00 PM
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card 3 -->
+        <div class="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all" data-aos="fade-up" data-aos-delay="300">
+          <div class="h-48 bg-gradient-to-r from-pink-500 to-red-600 flex items-center justify-center">
+            <i class="fas fa-users text-6xl text-white"></i>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Tech Conference 2024</h3>
+            <p class="text-gray-400 mb-4">Annual technology conference</p>
+            <div class="text-sm text-gray-500">
+              <i class="fas fa-calendar mr-2"></i>April 1, 2024
+              <i class="fas fa-clock ml-4 mr-2"></i>9:00 AM
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a routerLink="/events" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+          View All Events <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>

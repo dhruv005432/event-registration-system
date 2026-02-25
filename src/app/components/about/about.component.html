@@ -1,0 +1,379 @@
+<div class="min-h-screen bg-black text-white">
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 py-32 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-purple-600/10"></div>
+    <div class="absolute inset-0">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-600 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    </div>
+    
+    <div class="relative container mx-auto px-6 text-center">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+        Welcome to EventHub
+      </h1>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">
+        The Future of Smart Event Management
+      </h2>
+      <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+        "Seamless. Secure. Scalable."
+      </p>
+      <p class="text-lg text-gray-400 mb-12 max-w-4xl mx-auto">
+        EventHub is a modern, enterprise-grade event registration and management platform built to simplify 
+        event operations for businesses, institutions, and global organizations.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <button (click)="scrollToSection('services')" 
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+          <i class="fas fa-compass mr-2"></i>
+          Explore Events
+        </button>
+        <button (click)="contactSales()" 
+                class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+          <i class="fas fa-users mr-2"></i>
+          Contact Our Team
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Overview Section -->
+  <section id="overview" class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Who We Are</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+            EventHub is a technology-driven event management platform designed to streamline the entire 
+            event lifecycle — from event creation to registration, payment processing, and analytics reporting.
+          </p>
+          <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+            We empower organizations to host conferences, seminars, workshops, training sessions, and 
+            corporate summits with maximum efficiency and security.
+          </p>
+          <p class="text-lg text-gray-300 leading-relaxed">
+            Founded with the vision to modernize traditional event systems, EventHub combines cutting-edge 
+            technology with intuitive design to deliver unparalleled event management experiences.
+          </p>
+        </div>
+        
+        <div class="relative">
+          <div class="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl p-8 text-center">
+            <i class="fas fa-calendar-alt text-6xl text-white mb-4"></i>
+            <h3 class="text-2xl font-bold text-white mb-2">Modern Event Management</h3>
+            <p class="text-gray-200">Transforming the way organizations manage events</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Mission -->
+        <div class="bg-gray-900 rounded-2xl p-8">
+          <div class="text-center mb-8">
+            <i class="fas fa-bullseye text-4xl text-indigo-400 mb-4"></i>
+            <h3 class="text-3xl font-bold text-white">Our Mission</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-300">To simplify event registration through automation</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-300">To provide secure and scalable digital solutions</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-300">To enhance attendee experience with innovative tools</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Vision -->
+        <div class="bg-gray-900 rounded-2xl p-8">
+          <div class="text-center mb-8">
+            <i class="fas fa-eye text-4xl text-purple-400 mb-4"></i>
+            <h3 class="text-3xl font-bold text-white">Our Vision</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <i class="fas fa-globe text-blue-500 mt-1 mr-3"></i>
+              <span class="text-gray-300">To become a global leader in digital event platforms</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-rocket text-blue-500 mt-1 mr-3"></i>
+              <span class="text-gray-300">To enable organizations to manage events effortlessly</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-microchip text-blue-500 mt-1 mr-3"></i>
+              <span class="text-gray-300">To continuously innovate using modern cloud technologies</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Services Section -->
+  <section id="services" class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">What EventHub Offers</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div *ngFor="let service of coreServices" 
+             class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-all transform hover:scale-105">
+          <div class="text-center">
+            <i class="{{ service.icon }} text-3xl text-indigo-400 mb-4"></i>
+            <h4 class="text-lg font-semibold text-white mb-2">{{ service.title }}</h4>
+            <p class="text-gray-400 text-sm">{{ service.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose EventHub Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Why Choose EventHub</h2>
+        <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let advantage of advantages" 
+             class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-indigo-600 transition-all">
+          <div class="flex items-start mb-4">
+            <i class="{{ advantage.icon }} text-2xl text-indigo-400 mr-4"></i>
+            <h4 class="text-xl font-semibold text-white">{{ advantage.title }}</h4>
+          </div>
+          <p class="text-gray-400">{{ advantage.description }}</p>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <p class="text-lg text-gray-300">
+          EventHub is designed for <span class="text-indigo-400 font-semibold">startups</span>, 
+          <span class="text-purple-400 font-semibold">enterprises</span>, 
+          <span class="text-blue-400 font-semibold">universities</span>, 
+          <span class="text-green-400 font-semibold">training institutes</span>, and 
+          <span class="text-yellow-400 font-semibold">corporate organizations</span>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Our Core Values</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+        <p class="text-lg text-gray-400 mt-4">We believe technology should simplify complexity — not create it.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div *ngFor="let value of coreValues" 
+             class="text-center">
+          <div class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-all">
+            <i class="{{ value.icon }} text-3xl text-indigo-400 mb-4"></i>
+            <h4 class="text-lg font-semibold text-white mb-2">{{ value.title }}</h4>
+            <p class="text-gray-400 text-sm">{{ value.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership & Team Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Meet the Minds Behind EventHub</h2>
+        <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div *ngFor="let member of teamMembers" 
+             class="bg-gray-900 rounded-xl p-6 text-center hover:bg-gray-800 transition-all">
+          <div class="w-20 h-20 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-2xl font-bold text-white">{{ member.avatar }}</span>
+          </div>
+          <h4 class="text-xl font-semibold text-white mb-1">{{ member.name }}</h4>
+          <p class="text-indigo-400 font-medium mb-3">{{ member.position }}</p>
+          <p class="text-gray-400 text-sm mb-4">{{ member.bio }}</p>
+          <a *ngIf="member.linkedin" href="{{ member.linkedin }}" 
+             class="text-indigo-400 hover:text-indigo-300 transition-colors">
+            <i class="fab fa-linkedin text-xl"></i>
+          </a>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <p class="text-lg text-gray-300">
+          Our team consists of experienced <span class="text-indigo-400 font-semibold">developers</span>, 
+          <span class="text-purple-400 font-semibold">UI/UX designers</span>, 
+          <span class="text-blue-400 font-semibold">system architects</span>, and 
+          <span class="text-green-400 font-semibold">support specialists</span> 
+          committed to delivering excellence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievements & Milestones Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Achievements & Milestones</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div *ngFor="let stat of stats" 
+             class="text-center">
+          <div class="bg-gray-800 rounded-xl p-8">
+            <div class="text-5xl font-bold text-indigo-400 mb-2" 
+                 attr.data-counter="{{ stat.value }}" 
+                 attr.data-suffix="{{ stat.suffix }}">0{{ stat.suffix }}</div>
+            <p class="text-gray-300 font-medium">{{ stat.label }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12 text-center">
+        <p class="text-lg text-gray-300">
+          EventHub has successfully managed <span class="text-indigo-400 font-semibold">500+ Events</span>, 
+          processed <span class="text-purple-400 font-semibold">50,000+ Registrations</span>, 
+          supported <span class="text-blue-400 font-semibold">20+ Corporate Clients</span>, 
+          and maintained <span class="text-green-400 font-semibold">99.9% Platform Uptime</span>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Stack Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Technology Stack</h2>
+        <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+        <p class="text-lg text-gray-400 mt-4">EventHub is built using modern technologies</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div *ngFor="let tech of techStack" 
+             class="bg-gray-900 rounded-xl p-6 text-center hover:bg-gray-800 transition-all">
+          <i class="{{ tech.icon }} text-3xl text-indigo-400 mb-4"></i>
+          <h4 class="text-lg font-semibold text-white mb-3">{{ tech.category }}</h4>
+          <div class="space-y-2">
+            <span *ngFor="let technology of tech.technologies" 
+                  class="inline-block bg-gray-800 text-gray-300 text-xs px-2 py-1 rounded mr-1 mb-1">
+              {{ technology }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Compliance Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">Security & Compliance</h2>
+        <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+        <p class="text-lg text-gray-400 mt-4">We prioritize data protection and compliance</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let feature of securityFeatures" 
+             class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-all">
+          <div class="flex items-start mb-4">
+            <i class="{{ feature.icon }} text-2xl text-green-400 mr-4"></i>
+            <h4 class="text-xl font-semibold text-white">{{ feature.title }}</h4>
+          </div>
+          <p class="text-gray-400">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-white">What Our Clients Say</h2>
+        <div class="w-24 h-1 bg-purple-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let testimonial of testimonials" 
+             class="bg-gray-900 rounded-xl p-6 hover:bg-gray-800 transition-all">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mr-4">
+              <span class="text-sm font-bold text-white">{{ testimonial.avatar }}</span>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-white">{{ testimonial.name }}</h4>
+              <p class="text-indigo-400 text-sm">{{ testimonial.position }}</p>
+              <p class="text-gray-400 text-xs">{{ testimonial.company }}</p>
+            </div>
+          </div>
+          
+          <div class="flex mb-3">
+            <i *ngFor="let star of getStars(testimonial.rating)" 
+               class="{{ star }} fa-star text-yellow-400"></i>
+          </div>
+          
+          <p class="text-gray-300 italic">"{{ testimonial.review }}"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-6 text-white">
+        Ready to transform your event management experience?
+      </h2>
+      <p class="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+        Join thousands of organizations that trust EventHub for their event management needs. 
+        Experience the future of event registration today.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row gap-6 justify-center">
+        <button (click)="scrollToSection('services')" 
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+          <i class="fas fa-calendar-plus mr-2"></i>
+          Register Your Event
+        </button>
+        <button (click)="requestDemo()" 
+                class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+          <i class="fas fa-play-circle mr-2"></i>
+          Request a Demo
+        </button>
+        <button (click)="contactSales()" 
+                class="bg-gray-800 hover:bg-gray-700 text-white px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+          <i class="fas fa-phone mr-2"></i>
+          Contact Sales
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -70,6 +70,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "host": "localhost",
+            "port": 4200
+          },
           "configurations": {
             "production": {
               "buildTarget": "event-registration-system:build:production"
@@ -106,5 +110,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "6a122329-cf8a-4550-8057-c7195bb101fc"
   }
 }

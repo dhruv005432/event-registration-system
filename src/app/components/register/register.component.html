@@ -1,0 +1,456 @@
+<div class="min-h-screen bg-gray-900 text-white">
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-indigo-600 to-purple-600 py-20">
+    <div class="container mx-auto px-6 text-center">
+      <h1 class="text-5xl font-bold mb-4">Create Your EventHub Account</h1>
+      <p class="text-2xl mb-6 text-indigo-100">Start managing smarter events today.</p>
+      <p class="text-lg text-indigo-200 max-w-2xl mx-auto">
+        Join EventHub to create, manage, and track events with enterprise-grade tools and security.
+      </p>
+    </div>
+  </section>
+
+  <!-- Registration Content -->
+  <section class="py-16">
+    <div class="container mx-auto px-6 max-w-6xl">
+      
+      <!-- Account Type Selection -->
+      <div *ngIf="currentStep === 1" class="mb-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Choose Your Account Type</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div *ngFor="let accountType of accountTypes" 
+               class="bg-gray-800 rounded-xl p-6 border-2 transition-all duration-300 cursor-pointer"
+               [class.border-indigo-500]="selectedAccountType === accountType.type"
+               [class.border-gray-700]="selectedAccountType !== accountType.type"
+               (click)="selectAccountType(accountType.type)">
+            
+            <div class="text-center">
+              <div class="text-4xl mb-4 text-indigo-400">
+                <i [class]="accountType.icon"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-3">{{ accountType.title }}</h3>
+              <p class="text-gray-400 mb-4">{{ accountType.description }}</p>
+              
+              <ul class="text-left space-y-2 mb-6">
+                <li *ngFor="let feature of accountType.features" class="flex items-center text-sm">
+                  <i class="fas fa-check text-green-400 mr-2"></i>
+                  {{ feature }}
+                </li>
+              </ul>
+              
+              <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">
+                Select {{ accountType.title }}
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center mt-8">
+          <button (click)="nextStep()" 
+                  [disabled]="!selectedAccountType"
+                  class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 text-white py-3 px-8 rounded-lg transition-colors">
+            Continue to Registration
+          </button>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <div *ngIf="currentStep === 2">
+        <h2 class="text-3xl font-bold text-center mb-8">Complete Your Registration</h2>
+        
+        <form [formGroup]="registrationForm" class="max-w-4xl mx-auto">
+          <!-- Personal Information -->
+          <div class="bg-gray-800 rounded-xl p-8 mb-8">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fas fa-user mr-3 text-indigo-400"></i>
+              Personal Information
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium mb-2">Full Name *</label>
+                <input type="text" 
+                       formControlName="fullName"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="John Doe">
+                <div *ngIf="fullName?.invalid && fullName?.touched" class="text-red-400 text-sm mt-1">
+                  Full name is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Business Email Address *</label>
+                <input type="email" 
+                       formControlName="email"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="john.doe@company.com">
+                <div *ngIf="email?.invalid && email?.touched" class="text-red-400 text-sm mt-1">
+                  Valid email is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Phone Number *</label>
+                <input type="tel" 
+                       formControlName="phoneNumber"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="+1 (555) 123-4567">
+                <div *ngIf="phoneNumber?.invalid && phoneNumber?.touched" class="text-red-400 text-sm mt-1">
+                  Valid phone number is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Country *</label>
+                <select formControlName="country"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none">
+                  <option value="">Select Country</option>
+                  <option value="US">United States</option>
+                  <option value="UK">United Kingdom</option>
+                  <option value="CA">Canada</option>
+                  <option value="AU">Australia</option>
+                  <option value="IN">India</option>
+                  <option value="DE">Germany</option>
+                  <option value="FR">France</option>
+                  <option value="JP">Japan</option>
+                  <option value="CN">China</option>
+                  <option value="OTHER">Other</option>
+                </select>
+                <div *ngIf="country?.invalid && country?.touched" class="text-red-400 text-sm mt-1">
+                  Country is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Company Information (for organizations) -->
+          <div *ngIf="selectedAccountType === 'organization'" class="bg-gray-800 rounded-xl p-8 mb-8">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fas fa-building mr-3 text-indigo-400"></i>
+              Company Information
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium mb-2">Company Name *</label>
+                <input type="text" 
+                       formControlName="companyName"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="Acme Corporation">
+                <div *ngIf="companyName?.invalid && companyName?.touched" class="text-red-400 text-sm mt-1">
+                  Company name is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Industry Type *</label>
+                <select formControlName="industryType"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none">
+                  <option value="">Select Industry</option>
+                  <option *ngFor="let industry of industryTypes" [value]="industry">
+                    {{ industry }}
+                  </option>
+                </select>
+                <div *ngIf="industryType?.invalid && industryType?.touched" class="text-red-400 text-sm mt-1">
+                  Industry type is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Company Size *</label>
+                <select formControlName="companySize"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none">
+                  <option value="">Select Size</option>
+                  <option *ngFor="let size of companySizes" [value]="size">
+                    {{ size }} employees
+                  </option>
+                </select>
+                <div *ngIf="companySize?.invalid && companySize?.touched" class="text-red-400 text-sm mt-1">
+                  Company size is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Website URL</label>
+                <input type="url" 
+                       formControlName="websiteUrl"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="https://www.company.com">
+                <div *ngIf="websiteUrl?.invalid && websiteUrl?.touched" class="text-red-400 text-sm mt-1">
+                  Valid website URL required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security Section -->
+          <div class="bg-gray-800 rounded-xl p-8 mb-8">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fas fa-shield-alt mr-3 text-indigo-400"></i>
+              Security Settings
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium mb-2">Password *</label>
+                <input type="password" 
+                       formControlName="password"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="Enter strong password">
+                <div *ngIf="password?.invalid && password?.touched" class="text-red-400 text-sm mt-1">
+                  Password must be at least 8 characters
+                </div>
+                
+                <!-- Password Strength Indicator -->
+                <div *ngIf="password?.value" class="mt-2">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm">Password Strength:</span>
+                    <span class="text-sm font-medium" [class]="passwordStrengthColor">
+                      {{ passwordStrengthText }}
+                    </span>
+                  </div>
+                  <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="h-2 rounded-full transition-all duration-300"
+                         [class.bg-red-500]="passwordStrength < 40"
+                         [class.bg-yellow-500]="passwordStrength >= 40 && passwordStrength < 70"
+                         [class.bg-green-500]="passwordStrength >= 70"
+                         [style.width.%]="passwordStrength">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Confirm Password *</label>
+                <input type="password" 
+                       formControlName="confirmPassword"
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none"
+                       placeholder="Confirm your password">
+                <div *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="text-red-400 text-sm mt-1">
+                  <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
+                  <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">Passwords do not match</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Optional Features -->
+          <div class="bg-gray-800 rounded-xl p-8 mb-8">
+            <h3 class="text-xl font-bold mb-6 flex items-center">
+              <i class="fas fa-cog mr-3 text-indigo-400"></i>
+              Optional Features
+            </h3>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium mb-2">Default Language</label>
+                <select formControlName="defaultLanguage"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none">
+                  <option *ngFor="let lang of languages" [value]="lang.code">
+                    {{ lang.name }}
+                  </option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium mb-2">Time Zone</label>
+                <select formControlName="timeZone"
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-indigo-500 focus:outline-none">
+                  <option *ngFor="let tz of timeZones" [value]="tz.value">
+                    {{ tz.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="space-y-4 mt-6">
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" formControlName="subscribeToNewsletter" 
+                       class="mr-3 w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500">
+                <span class="text-sm">Subscribe to EventHub newsletter for updates and tips</span>
+              </label>
+              
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" formControlName="enableTwoFactorAuth" 
+                       class="mr-3 w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500">
+                <span class="text-sm">Enable Two-Factor Authentication (recommended)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Terms and Privacy -->
+          <div class="bg-gray-800 rounded-xl p-8 mb-8">
+            <div class="space-y-4">
+              <label class="flex items-start cursor-pointer">
+                <input type="checkbox" formControlName="agreeToTerms" 
+                       class="mr-3 mt-1 w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500">
+                <span class="text-sm">
+                  I agree to the <a href="#" class="text-indigo-400 hover:text-indigo-300">Terms and Conditions</a> *
+                </span>
+              </label>
+              
+              <label class="flex items-start cursor-pointer">
+                <input type="checkbox" formControlName="agreeToPrivacy" 
+                       class="mr-3 mt-1 w-4 h-4 text-indigo-600 bg-gray-700 border-gray-600 rounded focus:ring-indigo-500">
+                <span class="text-sm">
+                  I have read and accept the <a href="#" class="text-indigo-400 hover:text-indigo-300">Privacy Policy</a> *
+                </span>
+              </label>
+              
+              <div *ngIf="(agreeToTerms?.invalid && agreeToTerms?.touched) || (agreeToPrivacy?.invalid && agreeToPrivacy?.touched)" 
+                   class="text-red-400 text-sm">
+                You must agree to Terms and Privacy Policy to continue
+              </div>
+            </div>
+            
+            <!-- CAPTCHA Placeholder -->
+            <div class="mt-6 p-4 bg-gray-700 rounded-lg text-center">
+              <i class="fas fa-shield-alt text-2xl text-indigo-400 mb-2"></i>
+              <p class="text-sm text-gray-400">CAPTCHA verification would go here</p>
+              <button type="button" 
+                      (click)="onCaptchaVerified()"
+                      class="mt-2 text-indigo-400 hover:text-indigo-300 text-sm">
+                Simulate CAPTCHA Verification
+              </button>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="flex justify-between items-center">
+            <button type="button" 
+                    (click)="previousStep()"
+                    class="bg-gray-600 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition-colors">
+              Back
+            </button>
+            
+            <button type="button" 
+                    (click)="nextStep()"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg transition-colors">
+              Review & Submit
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Review & Submit -->
+      <div *ngIf="currentStep === 3" class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-8">Review Your Information</h2>
+        
+        <div class="bg-gray-800 rounded-xl p-8 mb-8">
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-lg font-bold mb-4 text-indigo-400">Personal Information</h3>
+              <div class="space-y-2 text-sm">
+                <p><strong>Name:</strong> {{ registrationForm.value.fullName }}</p>
+                <p><strong>Email:</strong> {{ registrationForm.value.email }}</p>
+                <p><strong>Phone:</strong> {{ registrationForm.value.phoneNumber }}</p>
+                <p><strong>Country:</strong> {{ registrationForm.value.country }}</p>
+                <p><strong>Account Type:</strong> {{ selectedAccountType }}</p>
+              </div>
+            </div>
+            
+            <div *ngIf="selectedAccountType === 'organization'">
+              <h3 class="text-lg font-bold mb-4 text-indigo-400">Company Information</h3>
+              <div class="space-y-2 text-sm">
+                <p><strong>Company:</strong> {{ registrationForm.value.companyName }}</p>
+                <p><strong>Industry:</strong> {{ registrationForm.value.industryType }}</p>
+                <p><strong>Size:</strong> {{ registrationForm.value.companySize }} employees</p>
+                <p><strong>Website:</strong> {{ registrationForm.value.websiteUrl }}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-6 pt-6 border-t border-gray-700">
+            <h3 class="text-lg font-bold mb-4 text-indigo-400">Preferences</h3>
+            <div class="grid md:grid-cols-2 gap-8 text-sm">
+              <div>
+                <p><strong>Language:</strong> {{ registrationForm.value.defaultLanguage }}</p>
+                <p><strong>Time Zone:</strong> {{ registrationForm.value.timeZone }}</p>
+                <p><strong>2FA Enabled:</strong> {{ registrationForm.value.enableTwoFactorAuth ? 'Yes' : 'No' }}</p>
+              </div>
+              <div>
+                <p><strong>Newsletter:</strong> {{ registrationForm.value.subscribeToNewsletter ? 'Subscribed' : 'Not subscribed' }}</p>
+                <p><strong>Terms Accepted:</strong> {{ registrationForm.value.agreeToTerms ? 'Yes' : 'No' }}</p>
+                <p><strong>Privacy Accepted:</strong> {{ registrationForm.value.agreeToPrivacy ? 'Yes' : 'No' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between items-center">
+          <button type="button" 
+                  (click)="previousStep()"
+                  class="bg-gray-600 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition-colors">
+            Back to Edit
+          </button>
+          
+          <div class="space-x-4">
+            <button type="button" 
+                    (click)="registerWithGoogle()"
+                    class="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg transition-colors">
+              <i class="fab fa-google mr-2"></i>
+              Register with Google
+            </button>
+            
+            <button type="button" 
+                    (click)="registerWithLinkedIn()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-colors">
+              <i class="fab fa-linkedin mr-2"></i>
+              Register with LinkedIn
+            </button>
+            
+            <button type="button" 
+                    (click)="onSubmit()"
+                    [disabled]="isSubmitting || registrationForm.invalid"
+                    class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 text-white py-3 px-8 rounded-lg transition-colors">
+              <span *ngIf="!isSubmitting">Create Account</span>
+              <span *ngIf="isSubmitting">Creating Account...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="registrationSuccess" class="max-w-2xl mx-auto text-center">
+        <div class="bg-green-900 border border-green-700 rounded-xl p-8">
+          <div class="text-5xl mb-4 text-green-400">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2 class="text-3xl font-bold mb-4">Welcome to EventHub!</h2>
+          <p class="text-lg mb-6">Your account has been created successfully.</p>
+          
+          <div *ngIf="verificationEmailSent" class="bg-gray-800 rounded-lg p-6 mb-6">
+            <h3 class="text-xl font-bold mb-3 text-yellow-400">
+              <i class="fas fa-envelope mr-2"></i>
+              Email Verification Required
+            </h3>
+            <p class="mb-4">We've sent a verification link to <strong>{{ registrationForm.value.email }}</strong></p>
+            <p class="text-sm text-gray-400">Please check your inbox and click the verification link to activate your account.</p>
+          </div>
+          
+          <div class="space-x-4">
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg transition-colors">
+              Go to Login
+            </button>
+            <button class="bg-gray-600 hover:bg-gray-700 text-white py-3 px-6 rounded-lg transition-colors">
+              Resend Verification Email
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Links -->
+  <section class="py-8 bg-gray-800">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-gray-400 mb-4">Already have an account?</p>
+      <button (click)="goToLogin()" 
+              class="text-indigo-400 hover:text-indigo-300 font-medium">
+        Sign In Here
+      </button>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,261 @@
+<div class="admin-dashboard-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-message">
+    <div class="error-content">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>{{ error }}</span>
+      <button (click)="refreshDashboard()" class="retry-btn">Retry</button>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <div *ngIf="!loading && !error" class="dashboard-content">
+    
+    <!-- Header Section -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <h1 class="dashboard-title">
+          <i class="fas fa-tachometer-alt"></i>
+          {{ currentUser.name }}! Here's your platform overview.
+        </h1>
+        <p class="dashboard-subtitle">
+          Welcome back, {{ currentUser.name }}!
+        </p>
+      </div>
+      
+      <div class="header-right">
+        <div class="time-range-selector">
+          <label for="timeRange">Time Range:</label>
+          <select id="timeRange" [(ngModel)]="selectedTimeRange" (ngModelChange)="onTimeRangeChange($event)">
+            <option value="week">Last Week</option>
+            <option value="month">Last Month</option>
+            <option value="quarter">Last Quarter</option>
+            <option value="year">Last Year</option>
+          </select>
+        </div>
+        
+        <div class="header-actions">
+          <button (click)="refreshDashboard()" class="btn-icon" title="Refresh Dashboard">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          
+          <div class="notification-dropdown" [class.active]="showNotifications">
+            <button (click)="showNotifications = !showNotifications" class="btn-icon" title="Notifications">
+              <i class="fas fa-bell"></i>
+              <span *ngIf="notifications.length > 0" class="notification-badge">{{ notifications.length }}</span>
+            </button>
+            
+            <div *ngIf="showNotifications" class="notification-menu">
+              <div class="notification-header">
+                <h3>Notifications</h3>
+                <button (click)="showNotifications = false" class="close-btn">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div class="notification-list">
+                <div *ngFor="let notification of notifications" class="notification-item" 
+                     [class]="notification.type">
+                  <i class="fas" 
+                     [class]="getNotificationIcon(notification.type)"></i>
+                  <div class="notification-content">
+                    <p class="notification-message">{{ notification.message }}</p>
+                    <span class="notification-time">{{ notification.time }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button (click)="exportData('excel')" class="btn-icon" title="Export to Excel">
+            <i class="fas fa-file-excel"></i>
+          </button>
+          
+          <button (click)="logout()" class="btn-logout" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Statistics Cards -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card" *ngFor="let stat of getStatsDisplay()">
+          <div class="stat-icon" [style.background-color]="stat.color">
+            <i class="fas" [class]="stat.icon"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value">{{ stat.value }}</h3>
+            <p class="stat-label">{{ stat.label }}</p>
+            <div *ngIf="stat.change" class="stat-change" [class.positive]="stat.change > 0">
+              <i class="fas" [class]="stat.change > 0 ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+              {{ stat.change }}%
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions-section">
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="quick-actions-grid">
+        <div *ngFor="let action of quickActions" 
+             class="quick-action-card"
+             [class.disabled]="!hasPermission(action.permission)"
+             (click)="onQuickAction(action)">
+          <div class="action-icon" [style.background-color]="action.color">
+            <i class="fas" [class]="action.icon"></i>
+          </div>
+          <div class="action-content">
+            <h3 class="action-title">{{ action.title }}</h3>
+            <p class="action-description">{{ action.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-section">
+      <div class="charts-grid">
+        <!-- Registration Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Registration Trends</h3>
+            <div class="chart-options">
+              <button class="btn-small">View Details</button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="registrationChart"></canvas>
+            <!-- Chart will be rendered by Chart.js -->
+          </div>
+        </div>
+
+        <!-- Revenue Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Overview</h3>
+            <div class="chart-options">
+              <button class="btn-small">View Details</button>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+            <!-- Chart will be rendered by Chart.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Tables Section -->
+    <section class="data-section">
+      <div class="data-grid">
+        
+        <!-- Recent Registrations -->
+        <div class="data-card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Registrations</h3>
+            <button (click)="navigateToRegistrations()" class="btn-small">View All</button>
+          </div>
+          <div class="card-content">
+            <div *ngIf="recentRegistrations.length === 0" class="empty-state">
+              <i class="fas fa-users"></i>
+              <p>No recent registrations</p>
+            </div>
+            <div *ngIf="recentRegistrations.length > 0" class="data-table">
+              <div class="table-header">
+                <span>Name</span>
+                <span>Event</span>
+                <span>Date</span>
+                <span>Status</span>
+              </div>
+              <div *ngFor="let registration of recentRegistrations.slice(0, 5)" class="table-row">
+                <span class="table-cell">{{ registration.fullName }}</span>
+                <span class="table-cell">{{ registration.eventName }}</span>
+                <span class="table-cell">{{ registration.registrationDate }}</span>
+                <span class="table-cell">
+                  <span class="status-badge" [class]="registration.paymentStatus">
+                    {{ registration.paymentStatus }}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Events -->
+        <div class="data-card">
+          <div class="card-header">
+            <h3 class="card-title">Top Performing Events</h3>
+            <button (click)="navigateToEvents()" class="btn-small">View All</button>
+          </div>
+          <div class="card-content">
+            <div *ngIf="topEvents.length === 0" class="empty-state">
+              <i class="fas fa-calendar"></i>
+              <p>No events data available</p>
+            </div>
+            <div *ngIf="topEvents.length > 0" class="events-list">
+              <div *ngFor="let event of topEvents.slice(0, 5)" class="event-item">
+                <div class="event-info">
+                  <h4 class="event-name">{{ event.name }}</h4>
+                  <div class="event-stats">
+                    <span class="event-stat">
+                      <i class="fas fa-users"></i>
+                      {{ event.registrations }} registrations
+                    </span>
+                    <span class="event-stat">
+                      <i class="fas fa-dollar-sign"></i>
+                      {{ formatCurrency(event.revenue) }}
+                    </span>
+                  </div>
+                </div>
+                <div class="event-growth" [class.positive]="event.growth.startsWith('+')">
+                  <i class="fas" [class]="event.growth.startsWith('+') ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                  {{ event.growth }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="data-card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Activity</h3>
+            <button class="btn-small">View All</button>
+          </div>
+          <div class="card-content">
+            <div *ngIf="recentActivities.length === 0" class="empty-state">
+              <i class="fas fa-history"></i>
+              <p>No recent activity</p>
+            </div>
+            <div *ngIf="recentActivities.length > 0" class="activity-list">
+              <div *ngFor="let activity of recentActivities.slice(0, 5)" 
+                   class="activity-item"
+                   (click)="onActivityClick(activity)">
+                <div class="activity-icon" [class]="getActivityColor(activity)">
+                  <i class="fas" [class]="getActivityIcon(activity)"></i>
+                </div>
+                <div class="activity-content">
+                  <h4 class="activity-title">{{ activity.title }}</h4>
+                  <p class="activity-description">{{ activity.description }}</p>
+                  <span class="activity-time">{{ formatRelativeTime(activity.timestamp) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

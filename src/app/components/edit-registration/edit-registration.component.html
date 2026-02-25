@@ -1,0 +1,422 @@
+<div class="min-h-screen bg-black text-white">
+  
+  <!-- Header Section -->
+  <section class="bg-gray-900 border-b border-gray-800">
+    <div class="container mx-auto px-6 py-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-3xl font-bold text-white mb-2">Edit Registration</h1>
+          <nav class="text-sm text-gray-400">
+            <span>Dashboard</span> / <span>Registrations</span> / <span class="text-white">Edit</span>
+          </nav>
+        </div>
+        
+        <div class="flex items-center gap-4">
+          <button (click)="backToList()" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to List
+          </button>
+          
+          <button (click)="showAuditLog()" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-history mr-2"></i>
+            Audit Log
+          </button>
+        </div>
+      </div>
+
+      <!-- Registration Info Bar -->
+      <div *ngIf="registration" class="bg-gray-800 rounded-lg p-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <p class="text-gray-400 text-sm">Registration ID</p>
+            <p class="text-indigo-400 font-mono font-semibold">{{ registration.id }}</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Registration Date</p>
+            <p class="text-white">{{ formatDate(registration.registrationDate) }}</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Event</p>
+            <p class="text-white">{{ registration.eventName }}</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Status</p>
+            <span [class]="'px-3 py-1 rounded-full text-xs font-semibold ' + getPaymentStatusClass(registration.paymentStatus)">
+              {{ registration.paymentStatus }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="container mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Edit Form -->
+      <div class="lg:col-span-2">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="bg-gray-900 rounded-xl p-8">
+          
+          <!-- Personal Information Section -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+              <i class="fas fa-user mr-3 text-indigo-400"></i>
+              Personal Information
+              <span class="ml-4 text-sm text-gray-400">* Editable</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                <input type="text" formControlName="fullName" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="John Doe">
+                <div *ngIf="fullName?.invalid && fullName?.touched" class="text-red-400 text-sm mt-1">
+                  Full name is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Corporate Email *</label>
+                <input type="email" formControlName="email" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="john&#64;company.com">
+                <div *ngIf="email?.invalid && email?.touched" class="text-red-400 text-sm mt-1">
+                  Valid email is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number *</label>
+                <input type="tel" formControlName="phone" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="+1 (555) 123-4567">
+                <div *ngIf="phone?.invalid && phone?.touched" class="text-red-400 text-sm mt-1">
+                  Valid phone number is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Company Name *</label>
+                <input type="text" formControlName="companyName" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="Acme Corporation">
+                <div *ngIf="companyName?.invalid && companyName?.touched" class="text-red-400 text-sm mt-1">
+                  Company name is required
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Job Title *</label>
+                <input type="text" formControlName="jobTitle" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="Software Engineer">
+                <div *ngIf="jobTitle?.invalid && jobTitle?.touched" class="text-red-400 text-sm mt-1">
+                  Job title is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Details Section -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+              <i class="fas fa-ticket-alt mr-3 text-indigo-400"></i>
+              Booking Details
+              <span class="ml-4 text-sm text-gray-400">* Editable</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Number of Seats *</label>
+                <input type="number" formControlName="numberOfSeats" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       min="1" max="10">
+                <div *ngIf="numberOfSeats?.invalid && numberOfSeats?.touched" class="text-red-400 text-sm mt-1">
+                  Number of seats must be between 1 and 10
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Ticket Type *</label>
+                <select formControlName="ticketType" 
+                        class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="standard">Standard</option>
+                  <option value="vip">VIP</option>
+                  <option value="earlyBird">Early Bird</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Event Date *</label>
+                <input type="date" formControlName="eventDate" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <div *ngIf="eventDate?.invalid && eventDate?.touched" class="text-red-400 text-sm mt-1">
+                  Event date is required
+                </div>
+              </div>
+              
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-300 mb-2">Special Notes</label>
+                <textarea formControlName="specialNotes" 
+                          class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          rows="3" 
+                          placeholder="Any special requirements or notes..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Section (Admin Only) -->
+          <div *ngIf="canEditPaymentStatus()" class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+              <i class="fas fa-credit-card mr-3 text-indigo-400"></i>
+              Payment Details
+              <span class="ml-4 text-sm text-orange-400">* Admin Only</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Payment Status *</label>
+                <select formControlName="paymentStatus" 
+                        class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="cancelled">Cancelled</option>
+                  <option value="refunded">Refunded</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Refund Status</label>
+                <select formControlName="refundStatus" 
+                        class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="none">No Refund</option>
+                  <option value="partial">Partial Refund</option>
+                  <option value="full">Full Refund</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Manual Payment Entry</label>
+                <input type="text" formControlName="manualPaymentEntry" 
+                       class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="Reference number or notes">
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <button type="submit" 
+                    [disabled]="isUpdating || editForm.invalid"
+                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white py-4 rounded-lg font-semibold transition-colors">
+              <i *ngIf="!isUpdating" class="fas fa-save mr-2"></i>
+              <i *ngIf="isUpdating" class="fas fa-spinner fa-spin mr-2"></i>
+              {{ isUpdating ? 'Updating...' : 'Update Registration' }}
+            </button>
+            
+            <button type="button" (click)="openRefundModal()" 
+                    class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-4 rounded-lg font-semibold transition-colors">
+              <i class="fas fa-undo mr-2"></i>
+              Issue Refund
+            </button>
+            
+            <button type="button" (click)="cancelRegistration()" 
+                    class="bg-red-600 hover:bg-red-700 text-white px-6 py-4 rounded-lg font-semibold transition-colors">
+              <i class="fas fa-times mr-2"></i>
+              Cancel Registration
+            </button>
+            
+            <button type="button" (click)="deleteRegistration()" 
+                    class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-4 rounded-lg font-semibold transition-colors">
+              <i class="fas fa-trash mr-2"></i>
+              Delete
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Sidebar Info -->
+      <div class="lg:col-span-1">
+        <!-- Security Info -->
+        <div class="bg-gray-900 rounded-xl p-6 mb-6">
+          <h3 class="text-lg font-semibold mb-4 flex items-center">
+            <i class="fas fa-shield-alt mr-2 text-indigo-400"></i>
+            Security Info
+          </h3>
+          
+          <div class="space-y-4">
+            <div>
+              <p class="text-gray-400 text-sm">Current User</p>
+              <p class="text-white">{{ currentUser.name }}</p>
+              <p class="text-gray-500 text-sm">{{ currentUser.email }}</p>
+              <span [class]="'px-2 py-1 rounded-full text-xs font-semibold ' + 
+                     (currentUser.role === 'admin' ? 'bg-red-600' : 
+                      currentUser.role === 'manager' ? 'bg-blue-600' : 'bg-gray-600') + ' text-white'">
+                {{ currentUser.role.toUpperCase() }}
+              </span>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm">Access Level</p>
+              <p class="text-white">
+                <span *ngIf="currentUser.role === 'admin'">Full Control</span>
+                <span *ngIf="currentUser.role === 'manager'">Limited Control</span>
+                <span *ngIf="currentUser.role === 'user'">View Only</span>
+              </p>
+            </div>
+            
+            <div>
+              <p class="text-gray-400 text-sm">Last Modified</p>
+              <p class="text-white">{{ formatDateTime(registration?.registrationDate || '') }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-gray-900 rounded-xl p-6 mb-6">
+          <h3 class="text-lg font-semibold mb-4 flex items-center">
+            <i class="fas fa-bolt mr-2 text-indigo-400"></i>
+            Quick Actions
+          </h3>
+          
+          <div class="space-y-3">
+            <button (click)="showAuditLog()" 
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-lg transition-colors text-left">
+              <i class="fas fa-history mr-2"></i>
+              View Audit Log
+            </button>
+            
+            <button (click)="downloadTicket()" 
+                    class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition-colors text-left">
+              <i class="fas fa-download mr-2"></i>
+              Download Ticket
+            </button>
+            
+            <button (click)="resendConfirmationEmail()" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-colors text-left">
+              <i class="fas fa-envelope mr-2"></i>
+              Resend Email
+            </button>
+            
+            <button (click)="backToList()" 
+                    class="w-full bg-gray-800 hover:bg-gray-700 text-white px-4 py-3 rounded-lg transition-colors text-left">
+              <i class="fas fa-arrow-left mr-2"></i>
+              Back to List
+            </button>
+          </div>
+        </div>
+
+        <!-- Registration Status Timeline -->
+        <div class="bg-gray-900 rounded-xl p-6">
+          <h3 class="text-lg font-semibold mb-4 flex items-center">
+            <i class="fas fa-clock mr-2 text-indigo-400"></i>
+            Status Timeline
+          </h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <div class="w-3 h-3 bg-green-600 rounded-full mt-1"></div>
+              <div class="flex-1">
+                <p class="text-white font-medium">Registration Created</p>
+                <p class="text-gray-400 text-sm">{{ formatDateTime(registration?.registrationDate || '') }}</p>
+              </div>
+            </div>
+            
+            <div *ngFor="let log of auditLogs; trackBy: trackByAuditLogId" class="flex items-start gap-3">
+              <div class="w-3 h-3 bg-blue-600 rounded-full mt-1"></div>
+              <div class="flex-1">
+                <p class="text-white font-medium">{{ log.changes[0] && log.changes[0].field ? log.changes[0].field : 'Unknown Action' }}</p>
+                <p class="text-gray-400 text-sm">{{ log.editedBy }} - {{ formatDateTime(log.timestamp) }}</p>
+                <div *ngIf="log.changes.length > 1" class="mt-2">
+                  <p class="text-gray-300 text-xs">Changes:</p>
+                  <ul class="list-disc list-inside text-gray-400 text-sm">
+                    <li *ngFor="let change of log.changes">
+                      {{ change.field }}: {{ change.oldValue || 'N/A' }} → {{ change.newValue }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audit Log Modal -->
+  <div *ngIf="showAuditModal" 
+       class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl max-w-4xl w-full p-8" data-aos="zoom-in">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-white">Audit Log</h2>
+        <button (click)="closeAuditLog()" class="text-gray-400 hover:text-white">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      
+      <div class="space-y-4 max-h-96 overflow-y-auto">
+        <div *ngFor="let log of auditLogs; trackBy: trackByAuditLogId" 
+             class="bg-gray-800 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-2">
+            <div>
+              <p class="text-white font-semibold">{{ log.editedBy }}</p>
+              <p class="text-gray-400 text-sm">{{ formatDateTime(log.timestamp) }}</p>
+            </div>
+            <span class="text-indigo-400 text-sm font-mono">{{ log.id }}</span>
+          </div>
+          
+          <div class="bg-gray-700 rounded p-3">
+            <p class="text-gray-300 text-sm mb-2">Changes Made:</p>
+            <ul class="space-y-1">
+              <li *ngFor="let change of log.changes" class="text-gray-400 text-sm">
+                <span class="text-white">{{ change.field }}:</span>
+                <span class="text-yellow-400">{{ change.oldValue || 'N/A' }}</span>
+                <span class="text-green-400">{{ change.newValue }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Refund Modal -->
+  <div *ngIf="showRefundModal" 
+       class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl max-w-md w-full p-8" data-aos="zoom-in">
+      <h2 class="text-2xl font-bold text-white mb-6">Process Refund</h2>
+      
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-300 mb-2">Refund Amount ($)</label>
+        <input type="number" 
+               [(ngModel)]="refundAmount"
+               class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+               placeholder="0.00"
+               min="0" step="0.01">
+      </div>
+      
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-300 mb-2">Refund Reason</label>
+        <textarea [(ngModel)]="refundReason"
+                  class="w-full bg-gray-800 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  rows="3" 
+                  placeholder="Enter refund reason..."></textarea>
+      </div>
+      
+      <div class="flex gap-4">
+        <button (click)="issueRefund()" 
+                class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+          <i class="fas fa-undo mr-2"></i>
+          Process Refund
+        </button>
+        <button (click)="closeRefundModal()" 
+                class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
